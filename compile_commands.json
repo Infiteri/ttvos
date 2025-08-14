@@ -1,0 +1,25 @@
+
+[
+  {
+    "directory": "/home/vanea/Downloads/OS",
+    "arguments": [
+      "clang",
+      "-Irelative",
+      "-DSOMEDEF=With spaces, quotes and \\-es.",
+      "-c",
+      "-o",
+      "file.o",
+      "file.c",
+      "-I.",
+      "-Isrc/bootloader/stage2",
+      "-Dfar=",
+      "-D_far=",
+      "-D__cdecl=__attribute__((cdecl))",
+      "-D__cdecl=",
+      "-D_cdecl=",
+      "-nostdlib"
+    ],
+    "file": "file.c"
+  }
+]
+
