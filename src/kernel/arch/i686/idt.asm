@@ -7,7 +7,7 @@ i686_IDTLoad:
     mov ebp, esp         ; initialize new call frame
     
     mov eax, [ebp + 8]
-    lgdt [eax]
+    lidt [eax]
 
 
     ; restore old call frame

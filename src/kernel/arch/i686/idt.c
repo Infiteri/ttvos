@@ -1,4 +1,5 @@
 #include "idt.h"
+#include "isr.h"
 
 #include <stdint.h>
 #include <util/binary.h>

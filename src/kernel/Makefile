@@ -11,14 +11,16 @@ HEADERS_C = $(wildcard *.h) \
 SOURCES_C = $(wildcard *.c) \
 			$(wildcard */*.c) \
 			$(wildcard */*/*.c) \
-			$(wildcard */*/*/*.c)
+			$(wildcard */*/*/*.c) \
+			arch/i686/isr_gen.c
 
 OBJECTS_C = $(patsubst %.c, $(BUILD_DIR)/kernel/c/%.obj, $(SOURCES_C))
 
 HEADERS_ASM = $(wildcard *.inc) \
 			  $(wildcard */*.inc) \
 			  $(wildcard */*/*.inc) \
-			  $(wildcard */*/*/*.inc)
+			  $(wildcard */*/*/*.inc) \
+			  arch/i686/isr_gen.inc
 
 SOURCES_ASM = $(wildcard *.asm) \
 			  $(wildcard */*.asm) \
@@ -34,7 +36,7 @@ all: kernel
 
 kernel: $(BUILD_DIR)/kernel.bin
 
-$(BUILD_DIR)/kernel.bin: $(OBJECTS_ASM) $(OBJECTS_C)
+$(BUILD_DIR)/kernel.bin:  $(OBJECTS_ASM) $(OBJECTS_C) 
 	@$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/kernel.map -o $@ $^ $(TARGET_LIBS)
 	@echo "--> Created:  kernel.bin"
 
@@ -47,6 +49,9 @@ $(BUILD_DIR)/kernel/asm/%.obj: %.asm $(HEADERS_ASM)
 	@mkdir -p $(@D)
 	@$(TARGET_ASM) $(TARGET_ASMFLAGS) -o $@ $<
 	@echo "--> Compiled: " $<
+
+arch/i686/isr_gen.c arch/i686/isr_gen.inc:
+	$(ROOT_DIR)/build_scripts/generate_isr.sh $(ROOT_DIR)/src/kernel/arch/i686/isr_gen.c $(ROOT_DIR)/src/kernel/arch/i686/isr_gen.inc
 
 clean:
 	rm -f $(BUILD_DIR)/kernel.bin
