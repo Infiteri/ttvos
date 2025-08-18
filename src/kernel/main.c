@@ -1,4 +1,3 @@
-#include "arch/i686/irq.h"
 #include "arch/i686/isr.h"
 #include "debug/debug.h"
 #include "hal/hal.h"
@@ -15,7 +14,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive)
 {
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
 
-    HALInitialize();
+    HAL_Initialize();
 
     clrscr();
 

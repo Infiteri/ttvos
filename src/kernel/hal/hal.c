@@ -5,10 +5,10 @@
 #include "arch/i686/irq.h"
 #include "arch/i686/isr.h"
 
-void HALInitialize()
+void HAL_Initialize()
 {
-    i686_GDTInitialize();
-    i686_IDTInitialize();
-    i686_ISRInitialize();
+    i686_GDT_Initialize();
+    i686_IDT_Initialize();
+    i686_ISR_Initialize();
     i686_IRQ_Initialize();
 }
