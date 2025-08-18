@@ -1,3 +1,6 @@
+#include "arch/i686/irq.h"
+#include "arch/i686/isr.h"
+#include "debug/debug.h"
 #include "hal/hal.h"
 #include "memory.h"
 #include "stdio.h"
@@ -6,7 +9,7 @@
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
-void crash();
+void timer(Registers *reg) { printf("."); }
 
 void __attribute__((section(".entry"))) start(uint16_t bootDrive)
 {
@@ -16,12 +19,11 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive)
 
     clrscr();
 
-    printf("Hello world from kernel!!!\n");
-    crash();
-    __asm("int $0x2");
-    __asm("int $0x3");
-    __asm("int $0x4");
-    __asm("int $0x5");
+    // note that this goes in the terminal of the qemu host
+    DebugInfo("Hello world %s\n", "step");
+    DebugDebug("Hello world %s\n", "step");
+    DebugWarn("Hello world %s\n", "step");
+    DebugError("Hello world %s\n", "step");
 
 end:
     for (;;)

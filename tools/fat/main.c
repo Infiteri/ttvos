@@ -1,9 +1,9 @@
-#include "stdint.h"
-#include "stdio.h"
 #include "disk.h"
 #include "fat.h"
+#include "stdint.h"
+#include "stdio.h"
 
-int main(int argc, const char** argv)
+int main(int argc, const char **argv)
 {
     if (argc < 3)
     {
@@ -24,7 +24,7 @@ int main(int argc, const char** argv)
     }
 
     // browse files in root
-    FAT_File far* fd = FAT_Open(&disk, argv[2]);
+    FAT_File far *fd = FAT_Open(&disk, argv[2]);
 
     if (fd->IsDirectory)
     {
@@ -49,7 +49,7 @@ int main(int argc, const char** argv)
             // fflush(stdout);
         }
     }
-    
+
     FAT_Close(fd);
 
     return 0;

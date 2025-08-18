@@ -1,6 +1,5 @@
 #include "pic.h"
 #include "io.h"
-#include <stdint.h>
 
 #define PIC1_COMMAND_PORT 0x20
 #define PIC1_DATA_PORT 0x21
@@ -35,30 +34,94 @@ enum
 
 void i686_PIC_Configure(uint8_t offsetPic1, uint8_t offsetPic2)
 {
+    // initialization control word 1
     i686_outb(PIC1_COMMAND_PORT, PIC_ICW1_ICW4 | PIC_ICW1_INITIALIZE);
     i686_iowait();
     i686_outb(PIC2_COMMAND_PORT, PIC_ICW1_ICW4 | PIC_ICW1_INITIALIZE);
     i686_iowait();
 
+    // initialization control word 2 - the offsets
     i686_outb(PIC1_DATA_PORT, offsetPic1);
     i686_iowait();
     i686_outb(PIC2_DATA_PORT, offsetPic2);
     i686_iowait();
 
-    i686_outb(PIC1_DATA_PORT, 0x4);
+    // initialization control word 3
+    i686_outb(PIC1_DATA_PORT,
+              0x4); // tell PIC1 that it has a slave at IRQ2 (0000 0100)
     i686_iowait();
-    i686_outb(PIC2_DATA_PORT, 0x2);
+    i686_outb(PIC2_DATA_PORT,
+              0x2); // tell PIC2 its cascade identity (0000 0010)
     i686_iowait();
 
+    // initialization control word 4
     i686_outb(PIC1_DATA_PORT, PIC_ICW4_8086);
     i686_iowait();
     i686_outb(PIC2_DATA_PORT, PIC_ICW4_8086);
     i686_iowait();
 
+    // clear data registers
     i686_outb(PIC1_DATA_PORT, 0);
     i686_iowait();
     i686_outb(PIC2_DATA_PORT, 0);
     i686_iowait();
 }
 
-void i686_PIC_Mask() {}
+void i686_PIC_Mask(int irq)
+{
+    uint8_t port;
+    if (irq < 8)
+        port = PIC1_DATA_PORT;
+    else
+    {
+        port = PIC2_DATA_PORT;
+        irq -= 8;
+    }
+
+    uint32_t mask = i686_inb(PIC2_DATA_PORT);
+    i686_outb(port, mask | (1 << irq));
+}
+
+void i686_PIC_Unmask(int irq)
+{
+    uint8_t port;
+    if (irq < 8)
+        port = PIC1_DATA_PORT;
+    else
+    {
+        port = PIC2_DATA_PORT;
+        irq -= 8;
+    }
+
+    uint32_t mask = i686_inb(PIC2_DATA_PORT);
+    i686_outb(port, mask & ~(1 << irq));
+}
+
+void i686_PIC_Disable()
+{
+    i686_outb(PIC1_DATA_PORT, 0xFF);
+    i686_iowait();
+    i686_outb(PIC2_DATA_PORT, 0xFF);
+    i686_iowait();
+}
+
+void i686_PIC_SendEndOfInterrupt(int irq)
+{
+    if (irq >= 8)
+        i686_outb(PIC2_COMMAND_PORT, PIC_CMD_END_OF_INTERRUPT);
+    i686_outb(PIC1_COMMAND_PORT, PIC_CMD_END_OF_INTERRUPT);
+}
+
+uint16_t i686_PIC_ReadIRQRequestRegister()
+{
+    i686_outb(PIC1_COMMAND_PORT, PIC_CMD_READ_IRR);
+    i686_outb(PIC2_COMMAND_PORT, PIC_CMD_READ_IRR);
+    return i686_inb(PIC2_COMMAND_PORT) | (i686_inb(PIC2_COMMAND_PORT) << 8);
+}
+
+uint16_t i686_PIC_ReadInServiceRegister()
+{
+    i686_outb(PIC1_COMMAND_PORT, PIC_CMD_READ_ISR);
+    i686_outb(PIC2_COMMAND_PORT, PIC_CMD_READ_ISR);
+    return i686_inb(PIC2_COMMAND_PORT) | (i686_inb(PIC2_COMMAND_PORT) << 8);
+}

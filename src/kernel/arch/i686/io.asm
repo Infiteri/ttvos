@@ -15,6 +15,16 @@ i686_inb:
     in al, dx
     ret
 
+global i686_EnableInterrupts
+i686_EnableInterrupts:    
+  sti
+  ret
+
+global i686_DisableInterrupts
+i686_DisableInterrupts:    
+  cli
+  ret
+
 global i686_panic
 i686_panic:
   cli
