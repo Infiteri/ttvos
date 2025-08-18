@@ -1,4 +1,5 @@
 #include "irq.h"
+#include "debug/debug.h"
 #include "io.h"
 #include "isr.h"
 #include "pic.h"
@@ -33,6 +34,7 @@ void i686_IRQ_Initialize()
 {
     i686_PIC_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8);
 
+    DebugDebug("Init irq %i\n");
     for (int i = 0; i < 16; i++)
         i686_ISR_RegisterHandler(PIC_REMAP_OFFSET + i, i686_IRQ_Handler);
 
@@ -41,5 +43,6 @@ void i686_IRQ_Initialize()
 
 void i686_IRQ_RegisterHanlder(int irq, IRQHandler handler)
 {
+    DebugDebug("Added irq handler %i\n", irq);
     g_IRQHandlers[irq] = handler;
 }

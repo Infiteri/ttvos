@@ -1,5 +1,5 @@
 TARGET_ASMFLAGS += -f elf
-TARGET_CFLAGS += -ffreestanding -nostdlib
+TARGET_CFLAGS += -ffreestanding -nostdlib -Isrc -I$(ROOT_DIR)/src/lib
 TARGET_LIBS += -lgcc
 TARGET_LINKFLAGS += -T linker.ld -nostdlib
 

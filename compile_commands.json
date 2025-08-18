@@ -13,6 +13,7 @@
       "file.c",
       "-I.",
       "-Isrc/bootloader/stage2",
+      "-Isrc/lib",
       "-Dfar=a",
       "-D__cdecl=",
       "-nostdlib"
