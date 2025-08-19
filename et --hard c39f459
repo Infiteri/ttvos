@@ -1,0 +1,7 @@
+[33m3d55343[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33mc39f459[m HEAD@{1}: commit: Added Allocator Base structure and functions
+[33m3d55343[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{2}: commit: Memory detection
+[33med68c3f[m HEAD@{3}: commit: Renamed for consitency
+[33mde461c3[m HEAD@{4}: commit: Stuff
+[33m3cf52fe[m HEAD@{5}: commit: PIC Started
+[33m4ceadba[m HEAD@{6}: commit (initial): STUFF
