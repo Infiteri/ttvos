@@ -23,7 +23,7 @@ typedef struct
     uint64_t Length;
     uint32_t Type;
     uint32_t ACPI;
-} E820MemoryBlock;
+} __attribute__((packed)) E820MemoryBlock;
 
 typedef enum
 {

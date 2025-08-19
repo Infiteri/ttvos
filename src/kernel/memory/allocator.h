@@ -18,7 +18,7 @@ typedef struct
     ptr_t Base;
     uint64_t Size;
     RegionType Type;
-} MemoryRegion;
+} AllocatorMemoryRegion;
 
 /// @brief MemoryRegion but 'Base' and 'Size' are in blocks
 typedef struct
@@ -45,9 +45,10 @@ uint64_t Allocator_ToBlock(void *ptr, AllocatorBase *base);
 uint64_t Allocator_ToBlockRoundUp(void *ptr, AllocatorBase *base);
 ptr_t *Allocator_ToPtr(uint64_t block, AllocatorBase *base);
 bool Allcator_InitializeBase(AllocatorBase *base, uint64_t blockSize,
-                             const MemoryRegion *regions, uint64_t regionCount);
+                             const AllocatorMemoryRegion *regions,
+                             uint64_t regionCount);
 void Allocator_DetermineMemoryRange(AllocatorBase *base,
-                                    const MemoryRegion *regions,
+                                    const AllocatorMemoryRegion *regions,
                                     uint64_t regionCount);
 
 void Allocator_FixOverlappingRegions(AllocatorBase *base,

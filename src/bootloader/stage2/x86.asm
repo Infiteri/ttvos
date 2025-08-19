@@ -268,7 +268,7 @@ x86_E820GetNextBlock:
 
     ; code
     ; setup params
-    LinearToSegOffset [bp + 8], es, edx, di
+    LinearToSegOffset [bp + 8], es, edi, di
     LinearToSegOffset [bp + 12], ds, esi, si
     mov ebx, ds:[si]
 

@@ -25,7 +25,8 @@ ptr_t *Allocator_ToPtr(uint64_t block, AllocatorBase *base)
 }
 
 bool Allcator_InitializeBase(AllocatorBase *base, uint64_t blockSize,
-                             const MemoryRegion *regions, uint64_t regionCount)
+                             const AllocatorMemoryRegion *regions,
+                             uint64_t regionCount)
 {
     base->MemBlockSize = blockSize;
     Allocator_DetermineMemoryRange(base, regions, regionCount);
@@ -114,7 +115,7 @@ void ArrayDeleteElement(void *array, uint64_t index, uint64_t *count)
 }
 
 void Allocator_DetermineMemoryRange(AllocatorBase *base,
-                                    const MemoryRegion *regions,
+                                    const AllocatorMemoryRegion *regions,
                                     uint64_t regionCount)
 {
     uint8_t *memBase = (uint8_t *)(-1);
